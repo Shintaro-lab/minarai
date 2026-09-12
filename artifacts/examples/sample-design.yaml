@@ -1,0 +1,22 @@
+id: sample-auth-design
+type: design
+title: ユーザー認証設計
+status: draft
+
+sections:
+  - id: overview
+    title: 概要
+    content: |
+      本システムのユーザー認証方式について記載する。
+
+  - id: authentication
+    title: 認証方式
+    content: |
+      OpenID Connectを利用する。
+
+      Authorization Code Flow + PKCEを採用する。
+
+  - id: session
+    title: セッション管理
+    content: |
+      Access Tokenの有効期限は30分とする。

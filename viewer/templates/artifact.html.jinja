@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ artifact.title }} - Minarai Review</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="artifact-header">
+    <h1>{{ artifact.title }}</h1>
+    <div class="artifact-meta">
+      <span class="artifact-id">{{ artifact.id }}</span>
+      <span class="artifact-status status-{{ artifact.status }}">{{ artifact.status }}</span>
+    </div>
+  </header>
+
+  <main id="sections">
+    {% for section in sections %}
+    <section class="artifact-section" data-section-id="{{ section.id }}">
+      <div class="section-header">
+        <h2>{{ section.title }}</h2>
+        <button type="button" class="add-comment-btn" data-section-id="{{ section.id }}">
+          コメントを追加
+        </button>
+      </div>
+
+      <div class="section-content">
+        {{ section.html | safe }}
+      </div>
+
+      <div class="section-comments" data-section-id="{{ section.id }}"></div>
+
+      <form class="comment-form" data-section-id="{{ section.id }}" hidden>
+        <textarea name="comment" rows="3" placeholder="コメントを入力してください"></textarea>
+        <div class="comment-form-actions">
+          <button type="submit">送信</button>
+          <button type="button" class="cancel-btn">キャンセル</button>
+        </div>
+      </form>
+    </section>
+    {% endfor %}
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

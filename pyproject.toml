@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minarai"
+version = "0.1.0"
+description = "Minarai: an AI agent that learns from experience while working with humans."
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+    "jsonschema>=4.0",
+    "Jinja2>=3.0",
+    "Markdown>=3.4",
+    "fastapi>=0.100",
+    "uvicorn>=0.23",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+minarai = "minarai.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

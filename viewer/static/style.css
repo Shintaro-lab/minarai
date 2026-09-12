@@ -1,0 +1,158 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f7f5;
+  --fg: #1f1f1f;
+  --muted: #6b6b6b;
+  --border: #ddd;
+  --accent: #3a6ea5;
+  --open: #b45309;
+  --addressed: #1d4ed8;
+  --resolved: #15803d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px 64px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, "Segoe UI", "Hiragino Sans", sans-serif;
+  line-height: 1.6;
+}
+
+.artifact-header {
+  max-width: 760px;
+  margin: 0 auto 24px;
+}
+
+.artifact-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+.artifact-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.artifact-status {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+#sections {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.artifact-section {
+  background: canvas;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.add-comment-btn,
+.comment-form button,
+.cancel-btn {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 4px 10px;
+}
+
+.add-comment-btn:hover,
+.comment-form button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.section-content {
+  margin-top: 8px;
+}
+
+.section-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment {
+  border-left: 3px solid var(--muted);
+  padding: 6px 10px;
+  background: rgba(127, 127, 127, 0.08);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.92rem;
+}
+
+.comment-status-open {
+  border-left-color: var(--open);
+}
+
+.comment-status-addressed {
+  border-left-color: var(--addressed);
+}
+
+.comment-status-resolved {
+  border-left-color: var(--resolved);
+}
+
+.comment-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.comment-body {
+  white-space: pre-wrap;
+}
+
+.comment-form {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  font: inherit;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  resize: vertical;
+}
+
+.comment-form-actions {
+  display: flex;
+  gap: 8px;
+}
