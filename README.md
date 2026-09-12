@@ -48,7 +48,10 @@ minarai/
 │   └── schema/
 ├── reviews/
 ├── src/
-├── viewer/
+│   └── minarai/
+│       ├── artifacts/
+│       └── review/
+│           └── viewer/
 ├── docs/
 ├── README.md
 └── AGENTS.md

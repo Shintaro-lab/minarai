@@ -1,7 +1,7 @@
-"""Repository-relative path resolution.
+"""Path resolution for Minarai's resources.
 
 Centralized here so the rest of the package never hardcodes where
-``artifacts/``, ``viewer/`` or ``reviews/`` live. Each path can be
+``artifacts/``, the review viewer, or ``reviews/`` live. Each path can be
 overridden with an environment variable, which keeps the door open for
 per-project locations later without changing calling code.
 """
@@ -27,7 +27,9 @@ def viewer_dir() -> Path:
     override = os.environ.get("MINARAI_VIEWER_DIR")
     if override:
         return Path(override)
-    return _repo_root() / "viewer"
+    # Viewer templates/static ship inside the review package itself, not as
+    # a top-level repository resource like artifacts/ or reviews/.
+    return Path(__file__).resolve().parent / "review" / "viewer"
 
 
 def reviews_dir() -> Path:
