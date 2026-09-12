@@ -3,3 +3,17 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .venv/
+
+# .claude/ config (settings.json, agents/, commands/, skills/) is shared and
+# tracked; only session-local runtime state is excluded here.
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/scheduled_tasks.json
+.claude/routines/.state/
+.claude/worktrees/
+.claude/checkpoints/
+.claude/mailbox/
+.claude/agent-registry.json
+.claude/agent-memory-local/
+.claude/first-run
+.claude/assistant-daemon-state.json
