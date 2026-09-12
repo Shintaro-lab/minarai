@@ -16,6 +16,7 @@ from minarai.paths import reviews_dir as default_reviews_dir
 from minarai.review.models import ArtifactReview, ReviewComment, VALID_STATUSES
 
 _COMMENT_ID_RE = re.compile(r"review-(\d+)$")
+_SAFE_ARTIFACT_ID_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
 class ReviewError(Exception):
@@ -30,6 +31,10 @@ class CommentNotFoundError(ReviewError):
     pass
 
 
+class InvalidArtifactIdError(ReviewError):
+    pass
+
+
 def _resolve_reviews_dir(reviews_dir: Optional[Union[str, Path]]) -> Path:
     directory = Path(reviews_dir) if reviews_dir else default_reviews_dir()
     directory.mkdir(parents=True, exist_ok=True)
@@ -37,6 +42,15 @@ def _resolve_reviews_dir(reviews_dir: Optional[Union[str, Path]]) -> Path:
 
 
 def review_path(artifact_id: str, reviews_dir: Optional[Union[str, Path]] = None) -> Path:
+    # artifact_id names the Review YAML file directly; the Artifact schema
+    # already restricts it to this pattern, but that guarantee lives in a
+    # separate file (and can be pointed elsewhere via schema_path), so it is
+    # re-checked here to stop path traversal (e.g. id: "../../etc/passwd")
+    # even if schema validation was skipped or overridden upstream.
+    if not _SAFE_ARTIFACT_ID_RE.match(artifact_id):
+        raise InvalidArtifactIdError(
+            f"Invalid artifact id '{artifact_id}': only letters, digits, '_' and '-' are allowed"
+        )
     return _resolve_reviews_dir(reviews_dir) / f"{artifact_id}.yaml"
 
 

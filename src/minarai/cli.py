@@ -71,7 +71,11 @@ def _cmd_review_list(argv: list[str]) -> int:
         _print_validation_error(args.path, exc)
         return 1
 
-    comments = store.list_comments(artifact.id)
+    try:
+        comments = store.list_comments(artifact.id)
+    except store.ReviewError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
 
     if args.json:
         print(json.dumps([c.to_dict() for c in comments], ensure_ascii=False, indent=2))

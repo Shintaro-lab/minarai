@@ -65,7 +65,10 @@ def create_app(
     @app.get("/api/comments")
     def get_comments() -> list[dict]:
         artifact = _load_artifact()
-        return [c.to_dict() for c in store.list_comments(artifact.id, reviews_dir)]
+        try:
+            return [c.to_dict() for c in store.list_comments(artifact.id, reviews_dir)]
+        except store.InvalidArtifactIdError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     @app.post("/api/comments", status_code=201)
     def post_comment(payload: CommentIn) -> dict:
@@ -73,6 +76,8 @@ def create_app(
         try:
             comment = store.add_comment(artifact, payload.target, payload.comment, reviews_dir)
         except store.SectionNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except store.InvalidArtifactIdError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return comment.to_dict()
 

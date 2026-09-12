@@ -4,7 +4,11 @@ import pytest
 
 from minarai.artifacts.loader import load_artifact
 from minarai.review import store
-from minarai.review.store import CommentNotFoundError, SectionNotFoundError
+from minarai.review.store import (
+    CommentNotFoundError,
+    InvalidArtifactIdError,
+    SectionNotFoundError,
+)
 
 
 def test_add_comment_to_existing_section(valid_artifact_path: Path, reviews_dir: Path) -> None:
@@ -64,3 +68,13 @@ def test_list_comments_returns_all_for_artifact(valid_artifact_path: Path, revie
 
 def test_list_comments_for_unreviewed_artifact_is_empty(reviews_dir: Path) -> None:
     assert store.list_comments("no-such-artifact", reviews_dir) == []
+
+
+def test_review_path_rejects_path_traversal_artifact_id(reviews_dir: Path) -> None:
+    with pytest.raises(InvalidArtifactIdError):
+        store.review_path("../../etc/passwd", reviews_dir)
+
+
+def test_review_path_rejects_path_separators_in_artifact_id(reviews_dir: Path) -> None:
+    with pytest.raises(InvalidArtifactIdError):
+        store.review_path("some/nested/path", reviews_dir)

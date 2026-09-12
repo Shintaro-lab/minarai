@@ -8,8 +8,8 @@
   "properties": {
     "id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Stable identifier for the Artifact. Used to name its Review YAML file."
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "description": "Stable identifier for the Artifact. Used to name its Review YAML file, so it must not contain path separators or '..'."
     },
     "type": {
       "type": "string",
@@ -33,7 +33,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
             "description": "Stable Section identifier. Review comments reference this id, never a line number or DOM position."
           },
           "title": {

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Optional, Union
 
 import markdown as _markdown
+import nh3
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from minarai.artifacts.models import Artifact
@@ -18,7 +19,16 @@ _MARKDOWN_EXTENSIONS = ["fenced_code", "tables"]
 
 
 def _render_markdown(text: str) -> str:
-    return _markdown.markdown(text, extensions=_MARKDOWN_EXTENSIONS)
+    """Markdown -> sanitized HTML.
+
+    Section content is authored by whoever wrote the Artifact (which may be
+    an AI agent or another contributor, not the person viewing it), so raw
+    HTML passed through by python-markdown must be sanitized before it is
+    marked `safe` in the template - otherwise a <script> in an Artifact
+    would run in the reviewer's browser (stored XSS).
+    """
+    raw_html = _markdown.markdown(text, extensions=_MARKDOWN_EXTENSIONS)
+    return nh3.clean(raw_html)
 
 
 def render_artifact_html(artifact: Artifact, viewer_dir: Optional[Union[str, Path]] = None) -> str:
